@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=JEckm2OCutxZ60zgeB2HkIrtWV0Dlecr"></script>
     <script src="https://code.bdstatic.com/npm/jquery@1.12.4/dist/jquery.min.js"></script>
-    <title>公交/地铁线路查询</title>
+    <title>北京快车公交线路查询系统</title>
     <style>
         body, html{
             width: 100%;
@@ -29,24 +29,39 @@
             box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
             border-radius: 7px;
         }
-        #bus-search {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 100;
-            background: #fff;
-            padding: 10px;
-            border-radius: 7px;
-            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+        .bus-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .bus-list li {
+            padding: 5px;
+            cursor: pointer;
+        }
+        .bus-list li:hover {
+            background-color: #ececec;
         }
     </style>
 </head>
 <body>
     <div id='container'></div>
     <div id='r-result'></div>
-    <div id="bus-search">
-        <input type="text" id="busNumber" placeholder="请输入查询的公交线路号" />
-        <button onclick="busSearch()">Search</button>
+    <!-- 添加两个公交线路列表 -->
+    <div class="bus-list" id="rapid-route">
+        <h3>大站快车 | Rapid Route</h3>
+        <ul>
+            <li onclick="busSearch('1')">387路(慧忠路东口-六圈路西口)</li>
+            <li onclick="busSearch('4')">4路</li>
+            <li onclick="busSearch('6')">6路</li>
+        </ul>
+    </div>
+    <div class="bus-list" id="express-route" style="top: 160px;">  <!-- 控制第二个列表的位置 -->
+        <h3>直达快车 | Express Route</h3>
+        <ul>
+            <li onclick="busSearch('102')">102路</li>
+            <li onclick="busSearch('104')">104路</li>
+            <li onclick="busSearch('105')">105路</li>
+            <li onclick="busSearch('108')">108路</li>
+        </ul>
     </div>
     <script>
         var map = new BMapGL.Map("container");            // 创建Map实例
@@ -62,9 +77,8 @@
             }
         });
 
-        function busSearch() {
-            var busName = document.getElementById("busNumber").value; // 获取输入框中的公交车号
-            busline.getBusList(busName);
+        function busSearch(busName) {
+            busline.getBusList(busName); // 获取用户选择的公交车号
             history.pushState(null, '', '?bus=' + busName); // 更新 URL
         }
 
@@ -73,8 +87,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const busName = urlParams.get('bus');
             if (busName) {
-                document.getElementById("busNumber").value = busName; // 填充输入框
-                busline.getBusList(busName); // 进行公交查询
+                busSearch(busName); // 进行公交查询
             }
         }
 
