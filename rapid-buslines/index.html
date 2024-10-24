@@ -40,6 +40,13 @@
         .bus-list li:hover {
             background-color: #ececec;
         }
+        .bus-list {
+            margin: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
     </style>
 </head>
 <body>
@@ -78,8 +85,9 @@
         });
 
         function busSearch(busName) {
-            busline.getBusList(busName); // 获取用户选择的公交车号
-            history.pushState(null, '', '?bus=' + busName); // 更新 URL
+            document.getElementById('r-result').innerHTML = ''; // 清空结果面板
+            busline.getBusList(busName);
+            history.pushState(null, '', '?bus=' + busName);
         }
 
         // 检查 URL 是否有公交车参数
