@@ -40,6 +40,34 @@
             border-radius: 7px;
             box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
         }
+        #rapid-list {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            width: 250px;
+            height: 250px;
+            overflow-y: auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 7px;
+            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+            margin-bottom: 10px;
+        }
+        #express-list {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            width: 250px;
+            height: 250px;
+            overflow-y: auto;
+            background: #fff;
+            padding: 10px;
+            border-radius: 7px;
+            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +77,8 @@
         <input type="text" id="busNumber" placeholder="请输入查询的公交线路号" />
         <button onclick="busSearch()">Search</button>
     </div>
+    <div id="rapid-list"></div>
+    <div id="express-list"></div>
     <script>
         var map = new BMapGL.Map("container");            // 创建Map实例
         map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 12);
