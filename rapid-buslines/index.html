@@ -34,39 +34,14 @@
             position: absolute;
             top: 10px;
             left: 10px;
-            z-index: 100;
-            background: #fff;
-            padding: 10px;
-            border-radius: 7px;
-            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
-        }
-        #rapid-list {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            z-index: 100;
             width: 250px;
-            height: 250px;
+            height: 800px;
             overflow-y: auto;
-            background: #fff;
-            padding: 10px;
-            border-radius: 7px;
-            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
-            margin-bottom: 10px;
-        }
-        #express-list {
-            position: absolute;
-            top: 10px;
-            left: 10px;
             z-index: 100;
-            width: 250px;
-            height: 250px;
-            overflow-y: auto;
             background: #fff;
             padding: 10px;
             border-radius: 7px;
             box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
-            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -76,9 +51,12 @@
     <div id="bus-search">
         <input type="text" id="busNumber" placeholder="请输入查询的公交线路号" />
         <button onclick="busSearch()">Search</button>
+        <hr>
+        <a line="1 1" target="_blank" href="/line/1">
+            1(四惠枢纽站-老山公交场站)
+            <br>
+        </a>
     </div>
-    <div id="rapid-list"></div>
-    <div id="express-list"></div>
     <script>
         var map = new BMapGL.Map("container");            // 创建Map实例
         map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 12);
