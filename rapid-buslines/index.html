@@ -45,7 +45,7 @@
     <div id='container'></div>
     <div id='r-result'></div>
     <div id="bus-search">
-        <input type="text" id="busNumber" placeholder="Enter bus number" />
+        <input type="text" id="busNumber" placeholder="请输入查询的公交线路号" />
         <button onclick="busSearch()">Search</button>
     </div>
     <script>
@@ -62,11 +62,24 @@
             }
         });
 
-        function busSearch(){
+        function busSearch() {
             var busName = document.getElementById("busNumber").value; // 获取输入框中的公交车号
             busline.getBusList(busName);
+            history.pushState(null, '', '?bus=' + busName); // 更新 URL
         }
 
+        // 检查 URL 是否有公交车参数
+        function checkUrlForBus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const busName = urlParams.get('bus');
+            if (busName) {
+                document.getElementById("busNumber").value = busName; // 填充输入框
+                busline.getBusList(busName); // 进行公交查询
+            }
+        }
+
+        // 页面加载时检查 URL
+        window.onload = checkUrlForBus;
     </script>
 </body>
 </html>
