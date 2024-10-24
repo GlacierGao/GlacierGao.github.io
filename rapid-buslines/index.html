@@ -1,22 +1,75 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-	<style type="text/css">
-	body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
-	</style>
-	<script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=JEckm2OCutxZ60zgeB2HkIrtWV0Dlecr"></script>
-	<title>地图展示</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="//api.map.baidu.com/api?type=webgl&v=1.0&ak=JEckm2OCutxZ60zgeB2HkIrtWV0Dlecr"></script>
+    <script src="https://code.bdstatic.com/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <title>公交/地铁线路查询</title>
+    <style>
+        body, html{
+            width: 100%;
+            height: 100%;
+            margin:0;
+            font-family:"微软雅黑";
+        }
+        #container{
+            height:100%;
+            width:100%;
+        }
+        #r-result {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 99;
+            width: 250px;
+            height: 450px;
+            overflow-y: auto;
+            background: #fff;
+            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+            border-radius: 7px;
+        }
+        #bus-search {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 100;
+            background: #fff;
+            padding: 10px;
+            border-radius: 7px;
+            box-shadow: 0 2px 6px 0 rgba(27, 142, 236, 0.5);
+        }
+    </style>
 </head>
 <body>
-	<div id="allmap"></div>
+    <div id='container'></div>
+    <div id='r-result'></div>
+    <div id="bus-search">
+        <input type="text" id="busNumber" placeholder="Enter bus number" />
+        <button onclick="busSearch()">Search</button>
+    </div>
+    <script>
+        var map = new BMapGL.Map("container");            // 创建Map实例
+        map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 12);
+
+        var busline = new BMapGL.BusLineSearch(map,{
+            renderOptions:{map:map,panel:"r-result"},
+            onGetBusListComplete: function(result){
+                if(result) {
+                    var fstLine = result.getBusListItem(0); // 获取第一个公交列表显示到map上
+                    busline.getBusLine(fstLine);
+                }
+            }
+        });
+
+        function busSearch(){
+            var busName = document.getElementById("busNumber").value; // 获取输入框中的公交车号
+            busline.getBusList(busName);
+        }
+
+        setTimeout(function(){
+            busSearch();
+        }, 1500); // 这个可以删除或注释掉，如果不想自动搜索
+    </script>
 </body>
 </html>
-<script type="text/javascript">
-    // GL版命名空间为BMapGL
-    // 按住鼠标右键，修改倾斜角和角度
-	var map = new BMapGL.Map("allmap");    // 创建Map实例
-	map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
-	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
-</script>
