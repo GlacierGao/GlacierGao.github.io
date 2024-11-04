@@ -56,15 +56,14 @@
     <div id='container'></div>
     <div id='r-result'></div>
     <div id="bus-search">
-        <input type="text" id="busNumber" placeholder="请输入查询的公交线路号" />
+        <!-- <input type="text" id="busNumber" placeholder="请输入查询的公交线路号" />
         <button onclick="busSearch()">
             Search
         </button>
-        <hr>
-        Express buslines
-        <br>
-        <a line="1 2" onclick="busSearchThroughLink(1)">
-            1(四惠枢纽站-老山公交场站)
+        <hr> -->
+        <p>Express buslines</p>
+        <a line="387N" onclick="busSearchThroughLink(387)">
+            387(慧忠路东口-六圈路西口)
             <br>
         </a>
         
@@ -86,14 +85,16 @@
             }
         });
 
-        function busSearch() {
-            var busName = document.getElementById("busNumber").value; // 获取输入框中的公交车号
-            busline.getBusList(busName);
-            history.pushState(null, '', '?bus=' + busName); // 更新 URL
-        }
+        // function busSearch() {
+        //    var busName = document.getElementById("busNumber").value; // 获取输入框中的公交车号
+        //    busline.getBusList(busName);
+        //    history.pushState(null, '', '?bus=' + busName); // 更新 URL
+        // }
 
         function busSearchThroughLink(busName) {
             busline.getBusList(busName);
+            // busline.getBusLine
+            // TODO: 上下行搜索
             history.pushState(null, '', '?bus=' + busName); // 更新 URL
         }
 
