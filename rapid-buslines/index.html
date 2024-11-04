@@ -50,12 +50,17 @@
     <div id='r-result'></div>
     <div id="bus-search">
         <input type="text" id="busNumber" placeholder="请输入查询的公交线路号" />
-        <button onclick="busSearch()">Search</button>
+        <button onclick="busSearch()">
+            Search
+        </button>
         <hr>
-        <a line="1 1" target="_blank" href="/line/1">
+        Express buslines
+        <br>
+        <a line="1 2" onclick="busSearchThroughLink(1)">
             1(四惠枢纽站-老山公交场站)
             <br>
         </a>
+        
     </div>
     <script>
         var map = new BMapGL.Map("container");            // 创建Map实例
@@ -76,6 +81,11 @@
 
         function busSearch() {
             var busName = document.getElementById("busNumber").value; // 获取输入框中的公交车号
+            busline.getBusList(busName);
+            history.pushState(null, '', '?bus=' + busName); // 更新 URL
+        }
+
+        function busSearchThroughLink(busName) {
             busline.getBusList(busName);
             history.pushState(null, '', '?bus=' + busName); // 更新 URL
         }
