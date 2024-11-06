@@ -77,9 +77,18 @@
         var map = new BMapGL.Map("container");            // 创建Map实例
         map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 12);
 
+        var index = 0;
         var busline = new BMapGL.BusLineSearch(map, {
             renderOptions: { map: map, panel: "r-result"},
-            // onGetBusListComplete:
+            onGetBusListComplete: function(result) {
+                if (result) {
+                    var fstLine = result.getBusListItem(index); // 获取第一个公交列表显示到map上
+                    busline.getBusLine(fstLine);
+                    document.getElementById("r-result").style.display = "block"; // 显示结果面板
+                } else {
+                    document.getElementById("r-result").style.display = "none"; // 搜索没有结果则隐藏
+                }
+            }
         });
 
         // function busSearch() {
@@ -89,21 +98,8 @@
         // }
 
         function busSearchThroughLink(busName, direction) {
-            busline.getBusList(busName); // 先查询结果
+            busline.getBusList(busName); // 查询结果
             history.pushState(null, '', '?bus=' + busName + '-' + direction); // 更新 URL
-            // 再设置回调函数：查询结果完了之后干什么
-            busline.onGetBusListComplete =  
-                function(result) {
-                if (result) {
-                    var fstLine = result.getBusListItem(direction); // 获取第一个公交列表显示到map上
-                    busline.getBusLine(fstLine);
-                    document.getElementById("r-result").style.display = "block"; // 显示结果面板
-                } else {
-                    document.getElementById("r-result").style.display = "none"; // 搜索没有结果则隐藏
-                }
-            }
-            
-            // busline.getBusLine
         }
 
         // 检查 URL 是否有公交车参数
