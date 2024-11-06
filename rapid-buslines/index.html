@@ -89,6 +89,8 @@
         // }
 
         function busSearchThroughLink(busName, direction) {
+            busline.getBusList(busName); // 先查询结果
+            // 再设置回调函数：查询结果完了之后干什么
             busline.onGetBusListComplete =  
                 function(result) {
                 if (result) {
@@ -99,10 +101,10 @@
                     document.getElementById("r-result").style.display = "none"; // 搜索没有结果则隐藏
                 }
             }
-            busline.getBusList(busName);
+            
             // busline.getBusLine
             // TODO: 上下行搜索
-            history.pushState(null, '', '?bus=' + busName); // 更新 URL
+            history.pushState(null, '', '?bus=' + busName + '-' + direction); // 更新 URL
         }
 
         // 检查 URL 是否有公交车参数
