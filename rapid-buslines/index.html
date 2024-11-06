@@ -77,12 +77,12 @@
         var map = new BMapGL.Map("container");            // 创建Map实例
         map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 12);
 
-        var index = 0;
+        var direc = 0;
         var busline = new BMapGL.BusLineSearch(map, {
             renderOptions: { map: map, panel: "r-result"},
-            onGetBusListComplete: function(result) {
+            onGetBusListComplete: function(result) { // 查询结果完成后，进入该回调函数————查询后干什么
                 if (result) {
-                    var fstLine = result.getBusListItem(index); // 获取第一个公交列表显示到map上
+                    var fstLine = result.getBusListItem(getDirection()); // 获取第x个公交列表显示到map上（api中写的，实际不太认同，0是上行，1是下行）
                     busline.getBusLine(fstLine);
                     document.getElementById("r-result").style.display = "block"; // 显示结果面板
                 } else {
@@ -97,7 +97,16 @@
         //    history.pushState(null, '', '?bus=' + busName); // 更新 URL
         // }
 
+        function setDirection(newDirec) {
+            direc = newDirec;
+        }
+
+        function getDirection() {
+            return direc;
+        }
+        
         function busSearchThroughLink(busName, direction) {
+            setDirection(direction); // 查询结果前，更新搜索方向（变量direc）
             busline.getBusList(busName); // 查询结果
             history.pushState(null, '', '?bus=' + busName + '-' + direction); // 更新 URL
         }
