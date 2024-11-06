@@ -62,10 +62,15 @@
         </button>
         <hr> -->
         <p>Express buslines</p>
-        <a line="387N" onclick="busSearchThroughLink(387)">
+        <a line="387-0" onclick="busSearchThroughLink(387, 0)">
+            387(六圈路西口-慧忠路东口)
+            <br>
+        </a>
+        <a line="387-1" onclick="busSearchThroughLink(387, 1)">
             387(慧忠路东口-六圈路西口)
             <br>
         </a>
+        三环、学院路、二环、莲花池东路、京港澳高速、四环
         
     </div>
     <script>
@@ -73,16 +78,8 @@
         map.centerAndZoom(new BMapGL.Point(116.404, 39.915), 12);
 
         var busline = new BMapGL.BusLineSearch(map, {
-            renderOptions: { map: map, panel: "r-result" },
-            onGetBusListComplete: function(result) {
-                if (result) {
-                    var fstLine = result.getBusListItem(0); // 获取第一个公交列表显示到map上
-                    busline.getBusLine(fstLine);
-                    document.getElementById("r-result").style.display = "block"; // 显示结果面板
-                } else {
-                    document.getElementById("r-result").style.display = "none"; // 搜索没有结果则隐藏
-                }
-            }
+            renderOptions: { map: map, panel: "r-result"},
+            // onGetBusListComplete:
         });
 
         // function busSearch() {
@@ -91,7 +88,17 @@
         //    history.pushState(null, '', '?bus=' + busName); // 更新 URL
         // }
 
-        function busSearchThroughLink(busName) {
+        function busSearchThroughLink(busName, direction) {
+            busline.onGetBusListComplete =  
+                function(result) {
+                if (result) {
+                    var fstLine = result.getBusListItem(direction); // 获取第一个公交列表显示到map上
+                    busline.getBusLine(fstLine);
+                    document.getElementById("r-result").style.display = "block"; // 显示结果面板
+                } else {
+                    document.getElementById("r-result").style.display = "none"; // 搜索没有结果则隐藏
+                }
+            }
             busline.getBusList(busName);
             // busline.getBusLine
             // TODO: 上下行搜索
